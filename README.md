@@ -45,6 +45,11 @@ $ pnpm run start:dev
 $ pnpm run start:prod
 ```
 
+## check mongo service
+
+```
+curl --location 'localhost:3000/v1/health'
+```
 ## Test
 
 ```bash
