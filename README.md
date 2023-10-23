@@ -50,6 +50,57 @@ $ pnpm run start:prod
 ```
 curl --location 'localhost:3000/v1/health'
 ```
+
+## swagger documentation
+```
+http://localhost:3000/docs
+```
+
+## cURL list
+### login
+```
+curl --location 'localhost:3000/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"admian@gmail.com",
+    
+    "password": "123456"
+}'
+```
+
+### register
+```
+curl --location 'localhost:3000/v1/auth/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"admian@gmail.com",
+    "username": "admin",
+    "password": "123456",
+    "confirmPassword": "123456"
+}'
+```
+
+### get pi value
+```
+curl --location --request GET 'localhost:3000/v1/calculator/pi-calculator' \
+--header 'X-AUTH-USER-DATA: <token from login>' \
+--header 'Content-Type: application/json' \
+```
+
+### calculate new pi value
+```
+curl --location --request GET 'localhost:3000/v1/calculator/calculate-pi' \
+--header 'X-AUTH-USER-DATA: <token from login>' \
+--header 'Content-Type: application/json' \
+```
+
+### circumference of the sun
+```
+curl --location --request GET 'localhost:3000/v1/calculator/sun-circumference' \
+--header 'X-AUTH-USER-DATA: <token from login>' \
+--header 'Content-Type: application/json' \
+```
+
 ## Test
 
 ```bash
