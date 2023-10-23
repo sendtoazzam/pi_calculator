@@ -29,7 +29,21 @@ export class PiCalculatorService {
   }
 
   async getSunCircumference(): Promise<number> {
-    return 12;
+    const radius = await this.getSunRadius();
+    const curPi = await this.getPi();
+    // C = 2πr;
+    const sunCircumference = 2 * curPi * radius;
+    return Number(sunCircumference).toFixed(3) as unknown as number;
+  }
+
+  private getSunRadius(): number {
+    const sunRadius: number = 432288; // in miles;
+
+    /* convert the miles to inches with this formula
+     * r = ((sunRadius) * (5280 / 1)) * (12/1)
+     */
+    const convert = sunRadius * (5280 / 1) * (12 / 1);
+    return convert;
   }
 
   private calculateValueOfPi(iterations) {

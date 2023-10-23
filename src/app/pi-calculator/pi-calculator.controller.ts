@@ -46,7 +46,7 @@ export class PiCalculatorController {
   async getSunCircumference(): Promise<object> {
     const sun = await this.calculatorService.getSunCircumference();
     return {
-      value: sun,
+      value: Number(sun),
     };
   }
 }
