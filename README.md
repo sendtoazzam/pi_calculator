@@ -51,6 +51,27 @@ $ pnpm run start:prod
 curl --location 'localhost:3000/v1/health'
 ```
 
+#### Notes
+```
+upon the app is init() there will be default seeder value for user account created and can use below cURL to get the token for the api
+
+curl --location 'localhost:3000/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email":"youremail@gmail.com",
+    "password": "123456"
+}'
+
+or
+
+curl --location 'localhost:3000/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username":"yourusername",
+    "password": "123456"
+}'
+```
+
 ## swagger documentation
 ```
 http://localhost:3000/docs
