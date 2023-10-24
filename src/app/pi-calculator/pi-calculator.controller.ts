@@ -8,6 +8,7 @@ import { PiQueryDTO } from './dto/request/pi-request.dto';
 import { PiResponseDto } from './dto/response/pi-response.dto';
 import { PiCalculator } from './pi-calculator.model';
 import { PiQueryFilter } from './query-filter/pi.query-filter';
+import { Public } from 'src/common/decorator/public.decorator';
 
 @Controller('calculator')
 @ApiBearerAuth('x-auth-user-data')
@@ -27,6 +28,7 @@ export class PiCalculatorController {
     };
   }
 
+  @Public()
   @Get('pi-history')
   @ApiResponse({
     status: 200,

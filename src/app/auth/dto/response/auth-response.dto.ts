@@ -9,6 +9,9 @@ export class LoginResponseDto {
   userId: number;
 
   @ApiProperty()
+  username: string;
+
+  @ApiProperty()
   role: string;
 
   @ApiProperty({
@@ -29,6 +32,7 @@ export class LoginResponseDto {
     accessToken: string,
     user: {
       userId: number;
+      username: string;
       platform: string;
       country: string;
       role: string;
@@ -40,5 +44,6 @@ export class LoginResponseDto {
     this.country = process.env.APP_COUNTRY ?? 'MY';
     this.userId = user.userId;
     this.platform = user.platform;
+    this.username = user.username;
   }
 }

@@ -70,6 +70,7 @@ export class AuthService {
 
     return {
       userId: user._id,
+      username: user.username ?? user.email,
       role: user?.userType,
       platform: 'APP',
       country: process.env.APP_COUNTRY,

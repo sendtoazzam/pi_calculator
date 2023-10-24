@@ -4,11 +4,13 @@ import { LoginRequestDto } from './dto/request/auth-request.dto';
 import { LoginResponseDto } from './dto/response/auth-response.dto';
 import { AuthService } from './auth.service';
 import { RegisterRequestDto } from './dto/request/register-request.dto';
+import { Public } from 'src/common/decorator/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('login')
   @ApiResponse({
     status: 200,
@@ -24,6 +26,7 @@ export class AuthController {
     return authenticateUser;
   }
 
+  @Public()
   @Post('register')
   @ApiResponse({
     status: 200,
