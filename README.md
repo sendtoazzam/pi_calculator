@@ -108,6 +108,13 @@ curl --location --request GET 'localhost:3000/v1/calculator/pi-calculator' \
 --header 'Content-Type: application/json' \
 ```
 
+### get pi value history
+```
+curl --location --request GET 'localhost:3000/v1/calculator/pi-history' \
+--header 'X-AUTH-USER-DATA: <token from login>' \
+--header 'Content-Type: application/json' \
+```
+
 ### calculate new pi value
 ```
 curl --location --request GET 'localhost:3000/v1/calculator/calculate-pi' \
