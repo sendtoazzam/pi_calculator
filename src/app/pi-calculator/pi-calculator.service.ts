@@ -3,6 +3,8 @@ import { AuthUser } from 'src/common/type/auth-user.type';
 import { PiCalculator } from './pi-calculator.model';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { PiQueryFilter } from './query-filter/pi.query-filter';
+import { Pagination } from 'src/common/pagination/pagination';
 
 @Injectable()
 export class PiCalculatorService {
@@ -21,6 +23,32 @@ export class PiCalculatorService {
       });
     }
     return getData;
+  }
+
+  async findAll(
+    qs: PiQueryFilter,
+    paginationMeta: boolean = false,
+  ): Promise<PiCalculator[] | Pagination> {
+    const conditions = {
+      deleted: false,
+    };
+
+    return paginationMeta
+      ? await qs.getPagination(this.piModel, conditions)
+      : await qs.setMongooseQuery(this.piModel, conditions);
+  }
+
+  async paginationMeta(
+    qs: PiQueryFilter,
+    paginationMeta: boolean = false,
+  ): Promise<PiCalculator[] | Pagination> {
+    const conditions = {
+      deleted: false,
+    };
+
+    return paginationMeta
+      ? await qs.getPagination(this.piModel, conditions)
+      : await qs.setMongooseQuery(this.piModel, conditions);
   }
 
   async getPi(): Promise<number> {

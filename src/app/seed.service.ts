@@ -45,7 +45,7 @@ export class SeedService implements OnModuleInit {
         type: AuthUserType.User,
       };
       const pi = await this.piService.calculate(authUser);
-      console.log(`Pi Generate with value ${pi}`);
+      console.log(`Pi Generated with value ${pi}`);
     } catch (error) {
       throw error;
     }
