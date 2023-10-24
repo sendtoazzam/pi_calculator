@@ -1,8 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { PiCalculatorService } from './pi-calculator.service';
 import { AuthUser } from 'src/common/type/auth-user.type';
 import { User } from 'src/common/decorator/user.decorator';
+import { Pagination } from 'src/common/pagination/pagination';
+import { PiQueryDTO } from './dto/request/pi-request.dto';
+import { PiResponseDto } from './dto/response/pi-response.dto';
+import { PiCalculator } from './pi-calculator.model';
+import { PiQueryFilter } from './query-filter/pi.query-filter';
 
 @Controller('calculator')
 @ApiBearerAuth('x-auth-user-data')
@@ -20,6 +25,32 @@ export class PiCalculatorController {
     return {
       piValue: calculatePi,
     };
+  }
+
+  @Get('pi-history')
+  @ApiResponse({
+    status: 200,
+    type: Object,
+    description: '{ piValue: 1234 }',
+  })
+  @ApiResponse({ status: 103, description: 'Token Missing Exception' })
+  async findAll(
+    @Query() query: PiQueryDTO,
+  ): Promise<PiResponseDto[] | Pagination> {
+    const queryFilter = new PiQueryFilter(query);
+
+    if (queryFilter.hasPaginationMeta()) {
+      return this.calculatorService.paginationMeta(
+        queryFilter,
+        true,
+      ) as Promise<Pagination>;
+    }
+
+    const piHistory = (await this.calculatorService.findAll(
+      queryFilter,
+    )) as PiCalculator[];
+
+    return piHistory.map(PiResponseDto.fromModel);
   }
 
   @Get('calculate-pi')
