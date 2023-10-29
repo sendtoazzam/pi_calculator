@@ -7,19 +7,23 @@ export default MongooseModule.forRootAsync({
   useFactory: () => {
     let options = {
       uri: process.env.MONGODB_ENDPOINT,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
+      autoIndex: true,
+      //no longer supposed by Mongoose 6
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+      // useCreateIndex: true,
+      // useFindAndModify: false,
     };
 
     // additional options needed to be included in production environment in order to connect to DB
     if (process.env.NODE_ENV === 'production') {
-      options = Object.assign(options, {
-        tls: process.env.USE_TLS,
-        tlsCAFile: process.env.CA_FILE,
-        tlsCertificateKeyFile: process.env.CERT_FILE,
-      });
+      if (process.env.USE_TLS === 'true') {
+        options = Object.assign(options, {
+          tls: process.env.USE_TLS,
+          tlsCAFile: process.env.CA_FILE,
+          tlsCertificateKeyFile: process.env.CERT_FILE,
+        });
+      }
     }
 
     return options;

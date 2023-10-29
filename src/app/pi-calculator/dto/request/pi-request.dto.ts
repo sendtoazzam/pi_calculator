@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseQueryParamDTO } from 'src/common/query-params/base-dto.queryparam';
+import { BaseQueryParamDto } from 'src/common/query-params/base-dto.queryparam';
 
-export class PiQueryDTO extends BaseQueryParamDTO {
+export class PiQueryDTO extends BaseQueryParamDto {
   @ApiProperty({ required: false })
   id: string;
 

@@ -1,10 +1,10 @@
-import { BaseQueryParamDTO } from '../query-params/base-dto.queryparam';
+import { BaseQueryParamDto } from '../query-params/base-dto.queryparam';
 import { Pagination } from './pagination';
 
 export class PaginationBuilder {
   static build(
     totalRecords: number,
-    queryParam: BaseQueryParamDTO,
+    queryParam: BaseQueryParamDto,
   ): Pagination {
     return {
       limit: queryParam.limit,

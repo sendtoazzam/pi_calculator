@@ -21,7 +21,7 @@ export default function (schema: Schema): void {
     return this.save();
   };
   const findFunc = schema.methods.find;
-  schema.query.isDeleted = function (
+  schema.query['isDeleted'] = function (
     cond: boolean,
   ): ReturnType<typeof findFunc> {
     if (typeof cond === 'undefined') {
