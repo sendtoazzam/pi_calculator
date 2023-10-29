@@ -1,22 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 
-export abstract class BaseQueryParamDTO {
+export abstract class BaseQueryParamDto {
   @ApiProperty({ required: false })
   @IsOptional()
   id: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  page: number = 1;
+  page = 1;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  limit: number = 30;
+  limit = 30;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  orderBy: string = '-id';
+  orderBy = '-id';
 
   @ApiProperty({ required: false })
   @IsOptional()

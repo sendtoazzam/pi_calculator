@@ -1,16 +1,16 @@
-import { BaseQueryParamDTO } from './base-dto.queryparam';
+import { BaseQueryParamDto } from './base-dto.queryparam';
 import { BaseMongooseDocument } from '../model/base-mongoose-document.model';
 import { Pagination } from '../pagination/pagination';
 import { PaginationBuilder } from '../pagination/builder.pagination';
-import { Model } from 'mongoose';
+import { Model, PipelineStage } from 'mongoose';
 
 /**
  * To build the query based on the query param passed in
  */
 export abstract class BaseQueryFilterBuilder {
-  allowLoadAll: boolean = false;
+  allowLoadAll = false;
 
-  constructor(private readonly qs: BaseQueryParamDTO) {}
+  constructor(private readonly qs: BaseQueryParamDto) {}
 
   id(value: string): object {
     const values = value.split(',').map((val: string) => {
@@ -45,11 +45,10 @@ export abstract class BaseQueryFilterBuilder {
     return query;
   }
 
-  // [TODO] find a way to return type
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   aggregateMongooseQuery<T extends BaseMongooseDocument>(
     model: Model<T>,
-    conditions?: Array<Record<string, number | object>>,
+    conditions?: PipelineStage[],
   ) {
     const whereConditions: object = {
       $and: [{ $or: [{ deleted: false }, { deleted: null }] }],
@@ -61,13 +60,12 @@ export abstract class BaseQueryFilterBuilder {
         $match: whereConditions,
       },
       {
-        $skip: this.getSkip(),
-      },
-      {
         $sort: this.getOrderBy(),
       },
+      {
+        $skip: this.getSkip(),
+      },
     );
-
     if (this.getLimit() > 0) {
       conditions.push({
         $limit: this.getLimit(),
@@ -77,7 +75,7 @@ export abstract class BaseQueryFilterBuilder {
     return model.aggregate(conditions);
   }
 
-  getQs(): BaseQueryParamDTO {
+  getQs(): BaseQueryParamDto {
     return this.qs;
   }
 
@@ -104,7 +102,7 @@ export abstract class BaseQueryFilterBuilder {
 
   async getAggregatePagination<T extends BaseMongooseDocument>(
     model: Model<T>,
-    conditions?: Array<Record<string, number | object>>,
+    conditions?: PipelineStage[],
   ): Promise<Pagination> {
     const whereConditions: object = {
       $and: [{ $or: [{ deleted: false }, { deleted: null }] }],
@@ -119,7 +117,6 @@ export abstract class BaseQueryFilterBuilder {
         $sort: this.getOrderBy(),
       },
     );
-
     const query = await model.aggregate(conditions);
 
     const total = query.length;
@@ -144,7 +141,7 @@ export abstract class BaseQueryFilterBuilder {
   /**
    * get ordering
    */
-  protected getOrderBy(): object {
+  protected getOrderBy(): any {
     if (this.qs?.orderBy) {
       const isLatest = this.qs.orderBy.startsWith('-');
       let columnName = isLatest
@@ -160,9 +157,9 @@ export abstract class BaseQueryFilterBuilder {
         [columnName]: isLatest ? -1 : 1,
       };
     } else {
-      // default will be order by ID desc
+      // default will be order by publishedAt desc
       return {
-        _id: -1,
+        publishedAt: -1,
       };
     }
   }
